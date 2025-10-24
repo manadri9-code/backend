@@ -58,5 +58,31 @@ router.get('/', authMiddleware, async(req, res) => {
     }
 });
 
+router.delete('/:id', authMiddleware, async (req, res) => {
+    try {
+        const producto_id = req.params.id;
+        const usuario_id = req.user.id;
+
+        // Intentamos eliminar la fila
+        const result = await pool.query(
+            'DELETE FROM Favoritos WHERE usuario_id = $1 AND producto_id = $2 RETURNING *',
+            [usuario_id, producto_id]
+        );
+
+        // Si result.rows.length es 0, significa que no se borró nada
+        // (probablemente porque no existía en primer lugar)
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'Este producto no estaba en tus favoritos.' });
+        }
+
+        res.status(200).json({ 
+            message: 'Producto eliminado de favoritos exitosamente'
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Error en el servidor');
+    }
+});
 
 module.exports = router;

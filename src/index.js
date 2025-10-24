@@ -5,6 +5,7 @@ const { testConnection } = require('./db');
 const authRoutes = require('./routes/auth'); // <-- Importa el archivo de rutas
 const productRoutes = require('./routes/products');
 const favoriteRoutes = require('./routes/favorites');
+const cartRoutes = require('./routes/cart');
 // 2. Creación de la app
 const app = express();
 const PORT = 3000;
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes); // <-- Usa el router importado
 app.use('/api/favorites', favoriteRoutes);
+app.use('/api/cart', cartRoutes);
 // 6. Iniciar el servidor
 app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);

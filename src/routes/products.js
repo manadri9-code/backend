@@ -72,7 +72,7 @@ router.get('/:id', async (req, res) => {
 
         // Adicionalmente, podríamos obtener todas las calificaciones/comentarios para ese producto
         const reviewsResult = await pool.query(
-            'SELECT c.puntuacion, c.comentario, u.nombre FROM Calificaciones c JOIN Usuarios u ON c.usuario_id = u.id WHERE c.producto_id = $1',
+            'SELECT c.id, c.puntuacion, c.comentario, u.nombre, c.usuario_id FROM Calificaciones c JOIN Usuarios u ON c.usuario_id = u.id WHERE c.producto_id = $1',
             [id]
         );
 
